@@ -9,6 +9,8 @@ import com.example.utils.TokenManager
 import com.typesafe.config.ConfigFactory
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.config.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -109,5 +111,14 @@ val tokenManager = TokenManager(HoconApplicationConfig(ConfigFactory.load()))
             NoteResponse(success = true, date = token))
 
         }
+
+    authenticate{
+        get("/me") {
+            val principle= call.principal<JWTPrincipal>()
+            val username = principle!!.payload.getClaim("username").asString()
+            val userId = principle!!.payload.getClaim("userId").asInt()
+            call.respondText("Hola $username su ID: $userId")
+        }
+    }
     }
 }

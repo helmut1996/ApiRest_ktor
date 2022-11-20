@@ -1,5 +1,7 @@
 package com.example.plugins
 
+import com.example.routing.AutotaticationRouting
+import com.example.routing.noteRouting
 import io.ktor.server.routing.*
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -13,4 +15,7 @@ fun Application.configureRouting() {
             call.respondText("Hello World!")
         }
     }
+
+    noteRouting()
+    AutotaticationRouting()
 }
